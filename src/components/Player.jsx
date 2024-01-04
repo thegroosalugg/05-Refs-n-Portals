@@ -6,7 +6,8 @@ export default function Player() {
 
 
   function handleClick() {
-    setName(playerName.current.value) // Set inputName with the value from the ref
+    const noWhitespace = playerName.current.value.trim(); // trim removes leading and trailing whitespaces
+    setName(noWhitespace || 'Stranger'); // Set inputName with the trimmed value or 'Stranger' if empty
   }
 
   return ( // ?? operator provides same output as the ternary (inputName ? inputName : 'Stanger')
