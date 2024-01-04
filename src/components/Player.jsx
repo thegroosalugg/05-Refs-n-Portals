@@ -8,9 +8,11 @@ export default function Player() {
     setValue(event.target.value); // on change the value of the player name is stored in the change event value
   }
 
-  function handleClick() {    // conditional check set to revert name back to default is input field is an empty string
-    setName(!inputValue ? 'Stranger' : inputValue); // when button is clicked, the stored input value state is then set as the name
+  function handleClick() { // conditional check set to revert name back to default is input field is an empty string
+    const trimmedValue = inputValue.trim(); // trim removes excess whitespaces to ensure n whitespaces cannot be set as a name
+    setName(trimmedValue !== '' ? trimmedValue : 'Stranger'); // when button is clicked, the stored input value state is then set as the name
   }
+
 
   return (
     <section id="player">
