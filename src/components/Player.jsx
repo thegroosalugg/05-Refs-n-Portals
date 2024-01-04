@@ -1,24 +1,19 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 export default function Player() {
-  const [inputValue, setValue] = useState(''); // initial input value must be an an empty string, and not completely empty
-  const [playerName, setName] = useState('Stranger'); // initial player name set
+  const playerName = useRef(); // useRef captures input data without the need for onChange event listener
+  const [inputName, setName] = useState(null); // State to hold the input name
 
-  function handleChange(event) {
-    setValue(event.target.value); // on change the value of the player name is stored in the change event value
+
+  function handleClick() {
+    setName(playerName.current.value) // Set inputName with the value from the ref
   }
 
-  function handleClick() { // conditional check set to revert name back to default is input field is an empty string
-    const trimmedValue = inputValue.trim(); // trim removes excess whitespaces to ensure n whitespaces cannot be set as a name
-    setName(trimmedValue !== '' ? trimmedValue : 'Stranger'); // when button is clicked, the stored input value state is then set as the name
-  }
-
-
-  return (
+  return ( // ?? operator provides same output as the ternary (inputName ? inputName : 'Stanger')
     <section id="player">
-      <h2>Welcome {playerName}</h2>
+      <h2>Welcome {inputName ?? 'Stranger'}</h2>
       <p>
-        <input type="text" onChange={handleChange} value={inputValue} />
+        <input type="text" ref={playerName} />
         <button onClick={handleClick}>Set Name</button>
       </p>
     </section>
