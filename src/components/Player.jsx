@@ -8,6 +8,7 @@ export default function Player() {
   function handleClick() {
     const noWhitespace = playerName.current.value.trim(); // trim removes leading and trailing whitespaces
     setName(noWhitespace || 'Stranger'); // Set inputName with the trimmed value or 'Stranger' if empty
+    playerName.current.value = '' // this line clears the input field after input is submitted
   }
 
   return ( // ?? operator provides same output as the ternary (inputName ? inputName : 'Stanger')
