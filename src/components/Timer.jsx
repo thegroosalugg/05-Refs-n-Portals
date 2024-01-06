@@ -6,11 +6,12 @@ export default function Timer({ title, targetTime }) {
   const [timerExpired, setExpired] = useState(false);
 
   const timer = useRef();
+  const dialog = useRef();
 
   function handleStart() {
-    timer.current = setTimeout(() => {
-      // must always target the current ref
+    timer.current = setTimeout(() => { // must always target the current ref
       setExpired(true); // setTimeout is a built-in JS function
+      dialog.current.showModal() // the built-in dialog element, has a showModal method which can be called to show it
     }, targetTime * 1000); // time is always in MS so set time must be multiplied * 1000 ms
 
     setStarted(true);
@@ -22,7 +23,7 @@ export default function Timer({ title, targetTime }) {
 
   return (
     <>
-      {timerExpired && <ResultsModal result={"Massive Fail"} targetTime={targetTime} />}
+      <ResultsModal ref={dialog} result={"Massive Fail"} targetTime={targetTime} />
       <section className="challenge">
         <h2>{title}</h2>
         <p className="challenge-time">
