@@ -3,7 +3,7 @@ import { forwardRef, useRef, useImperativeHandle } from "react"; // react compon
 // the ref passed through cannot be destructured, it is passed as a second argument
 // by passing the ref to show the dialog it allows a dimming of the background, not supported without using the ref
 
-const ResultsModal = forwardRef(function ResultsModal({ result, targetTime }, ref) {
+const ResultsModal = forwardRef(function ResultsModal({ timeLeft, targetTime, onReset }, ref) {
   const dialog = useRef()
 
   // imperative handle is intended to work with forward ref. It detaches the component so that it may be used again...
@@ -24,14 +24,14 @@ const ResultsModal = forwardRef(function ResultsModal({ result, targetTime }, re
   return (
     // <dialog className="result-modal" open> Dialog is hidden by default, 'open' makes it visible
     <dialog className="result-modal" ref={dialog}> {/* with imperative handle the new ref declared within is now passed */}
-      <h2>{result}</h2>
+      <h2>{timeLeft <= 0 && "Massive Fail"}</h2>
       <p>
         Target Time: <strong>{targetTime} seconds</strong>
       </p>
       <p>
-        Timer stopped with <strong>N seconds remaining</strong>
+        Timer stopped with <strong>{(timeLeft / 1000).toFixed(2)} seconds remaining</strong>
       </p>
-      <form method="dialog">
+      <form method="dialog" onSubmit={onReset}> {/* onDubmit is a react method which will execute function when nested button clicked */}
         {/* form dialog is a built-in HTML function, the button will know how to close the dialogue of the main parent element*/}
         <button>close</button>
       </form>

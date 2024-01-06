@@ -11,7 +11,6 @@ export default function Timer({ title, targetTime }) {
 
   if (timeLeft <= 0 ) {
     clearInterval(timer.current); // when times runs out, interval is cleared and target time reset
-    setTime(targetTime * 1000)
     dialog.current.open() // with imperative handle we call a function within our component (the name 'open' can be set to any name)
   }
 
@@ -26,9 +25,13 @@ export default function Timer({ title, targetTime }) {
     dialog.current.open() // timer stopped manually with button
   }
 
+  function handleReset() {
+    setTime(targetTime * 1000) // reset the timer but to target time on complete
+  }
+
   return (
     <>
-      <ResultsModal ref={dialog} result={"Massive Fail"} targetTime={targetTime} />
+      <ResultsModal ref={dialog} targetTime={targetTime} timeLeft={timeLeft} onReset={handleReset} />
       <section className="challenge">
         <h2>{title}</h2>
         <p className="challenge-time">
