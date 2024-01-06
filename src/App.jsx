@@ -5,14 +5,14 @@ import { useState } from "react";
 function App() {
   const [scores, setScores] = useState([]);
 
-  const getScore = (score) => {
-    setScores((prevScores) => [
+  function getScore({targetTime, score}) { // function is passed as prop to Timer where the scores are calculated
+    setScores((prevScores) => [           // function records the score and which timer played as an array of objects
       ...prevScores,
-      { timer: selectedTimer, score: score },
+      { timer: targetTime, score: score },
     ]);
   };
 
-  console.log(getScore)
+  console.log(scores)
 
   return (
     <>

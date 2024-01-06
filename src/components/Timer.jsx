@@ -24,6 +24,7 @@ export default function Timer({ title, targetTime, getScore }) {
   function handleStop() {
     clearInterval(timer.current); // clearTimeout/Interval are built-in JS functions
     dialog.current.open() // timer stopped manually with button
+    getScore({targetTime, score});
   }
 
   function handleReset() {
