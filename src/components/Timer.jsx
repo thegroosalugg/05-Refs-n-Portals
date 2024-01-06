@@ -2,24 +2,28 @@ import { useState, useRef } from "react";
 import ResultsModal from "./ResultsModal";
 
 export default function Timer({ title, targetTime }) {
-  const [timerStarted, setStarted] = useState(false);
-  const [timerExpired, setExpired] = useState(false);
+  const [timeLeft, setTime] = useState(targetTime * 1000); // times by milliseconds
 
   const timer = useRef();
   const dialog = useRef();
 
-  function handleStart() {
-    timer.current = setTimeout(() => { // must always target the current ref
-      setExpired(true); // setTimeout is a built-in JS function
-      // dialog.current.showModal() // the built-in dialog element, has a showModal method which can be called to show it
-      dialog.current.open() // with imperative handle we call a function within our component (the name 'open' can be set to any name)
-    }, targetTime * 1000); // time is always in MS so set time must be multiplied * 1000 ms
+  const timerActive = timeLeft > 0 && timeLeft < targetTime * 1000 // timer is active when it hasn't expired (0) and has started (< targetTime)
 
-    setStarted(true);
+  if (timeLeft <= 0 ) {
+    clearInterval(timer.current); // when times runs out, interval is cleared and target time reset
+    setTime(targetTime * 1000)
+    dialog.current.open() // with imperative handle we call a function within our component (the name 'open' can be set to any name)
+  }
+
+  function handleStart() {
+    timer.current = setInterval(() => { // must always target the current ref
+      setTime(lastTimeStamp => lastTimeStamp - 10) // deduct 10ms from target time each interval
+    }, 10); // Intervals every 10ms
   }
 
   function handleStop() {
-    clearTimeout(timer.current); // clearTimeout is a built-in JS function
+    clearInterval(timer.current); // clearTimeout/Interval are built-in JS functions
+    dialog.current.open() // timer stopped manually with button
   }
 
   return (
@@ -31,12 +35,12 @@ export default function Timer({ title, targetTime }) {
           {targetTime} second{targetTime > 1 ? "s" : ""}
         </p>
         <p>
-          <button onClick={timerStarted ? handleStop : handleStart}>
-            {timerStarted ? "Stop" : "Start"}
+          <button onClick={timerActive ? handleStop : handleStart}>
+            {timerActive ? "Stop" : "Start"}
           </button>
         </p>
-        <p className={timerStarted ? "active" : undefined}>
-          {timerStarted ? "Running" : "Dormant"}
+        <p className={timerActive ? "active" : undefined}>
+          {timerActive ? "Running" : "Dormant"}
         </p>
       </section>
     </>
