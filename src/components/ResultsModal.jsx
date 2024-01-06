@@ -3,8 +3,15 @@ import { forwardRef, useRef, useImperativeHandle } from "react"; // react compon
 // the ref passed through cannot be destructured, it is passed as a second argument
 // by passing the ref to show the dialog it allows a dimming of the background, not supported without using the ref
 
+const FAIL = ['Massive Fail', 'Reactions of a Snail', 'Terrible', 'Just Awful', 'So Slow', 'Do Better']
+
+function sampleArray(arr) { return arr[Math.floor(Math.random() * arr.length)] }; // random number generator
+  // chosen array selects index via random number
+
 const ResultsModal = forwardRef(function ResultsModal({ timeLeft, targetTime, onReset }, ref) {
   const dialog = useRef()
+
+  const score = Math.round((1- timeLeft / (targetTime * 1000)) * 100)
 
   // imperative handle is intended to work with forward ref. It detaches the component so that it may be used again...
   // ...if the code in the return function changes, i.e. <dialog> becomes a <div> and no showModal() no longer works
@@ -24,7 +31,8 @@ const ResultsModal = forwardRef(function ResultsModal({ timeLeft, targetTime, on
   return (
     // <dialog className="result-modal" open> Dialog is hidden by default, 'open' makes it visible
     <dialog className="result-modal" ref={dialog}> {/* with imperative handle the new ref declared within is now passed */}
-      <h2>{timeLeft <= 0 && "Massive Fail"}</h2>
+      {timeLeft <= 0 && <h2>{sampleArray(FAIL)}</h2>}
+      {timeLeft > 0 && <h2>Score: {score}</h2>}
       <p>
         Target Time: <strong>{targetTime} seconds</strong>
       </p>
