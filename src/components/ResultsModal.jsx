@@ -29,9 +29,9 @@ const ResultsModal = forwardRef(function ResultsModal({ timeLeft, targetTime, on
   // This allows the parent to control when the modal should be opened
 
   return (
-    // <dialog className="result-modal" open> Dialog is hidden by default, 'open' makes it visible
-    <dialog className="result-modal" ref={dialog}> {/* with imperative handle the new ref declared within is now passed */}
-      {timeLeft <= 0 && <h2>{sampleArray(FAIL)}</h2>}
+    // < dialog className="result-modal" open > Dialog is hidden by default, 'open' makes it visible
+    <dialog className="result-modal" ref={dialog} onClose={onReset}> {/* with imperative handle the new ref declared within is now passed */}
+      {timeLeft <= 0 && <h2>{sampleArray(FAIL)}</h2>} {/* onClose is a built-in listener that will pass handleReset if the dialog is closed with ESC instead of button */}
       {timeLeft > 0 && <h2>Score: {score}</h2>}
       <p>
         Target Time: <strong>{targetTime} seconds</strong>
