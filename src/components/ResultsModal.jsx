@@ -2,6 +2,8 @@ import { forwardRef, useRef, useImperativeHandle } from "react"; // react compon
 // said ref must wrap a functio that is stored in a constant
 // the ref passed through cannot be destructured, it is passed as a second argument
 // by passing the ref to show the dialog it allows a dimming of the background, not supported without using the ref
+import { createPortal } from "react-dom"; // portals allow you to render HTML content elsewhere in the DOM
+// the idea is that some components can be heavily nested but should be rendered on top of other elements
 
 const FAIL = ['Massive Fail', 'Reactions of a Snail', 'Terrible', 'Just Awful', 'So Slow', 'Do Better']
 
@@ -28,7 +30,7 @@ const ResultsModal = forwardRef(function ResultsModal({ timeLeft, targetTime, on
   // useImperativeHandle is used to expose a method (open) of the ResultsModal component to the parent (Timer).
   // This allows the parent to control when the modal should be opened
 
-  return (
+  return createPortal(
     // < dialog className="result-modal" open > Dialog is hidden by default, 'open' makes it visible
     <dialog className="result-modal" ref={dialog} onClose={onReset}> {/* with imperative handle the new ref declared within is now passed */}
       {timeLeft <= 0 && <h2>{sampleArray(FAIL)}</h2>} {/* onClose is a built-in listener that will pass handleReset if the dialog is closed with ESC instead of button */}
@@ -43,8 +45,9 @@ const ResultsModal = forwardRef(function ResultsModal({ timeLeft, targetTime, on
         {/* form dialog is a built-in HTML function, the button will know how to close the dialogue of the main parent element*/}
         <button>close</button>
       </form>
-    </dialog>
-  );
+    </dialog>,
+    document.getElementById('modal') // createPortal takes 2 arguments, the HTML code, and the DOM selector of where you want it to render
+  ); // 'modal' is the ID of the div at the top of the < body >
 })
 
 export default ResultsModal
