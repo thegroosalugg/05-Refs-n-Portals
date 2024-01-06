@@ -10,6 +10,7 @@ const ResultsModal = forwardRef(function ResultsModal({ result, targetTime }, re
   // ...if the code in the return function changes, i.e. <dialog> becomes a <div> and no showModal() no longer works
   // imperative handle takes 2 arguments, one must be the forwarded ref, and the second is a function...
   // ... the HTML code can then be changed as needed, as long as the imperative function is kept up to date as well
+  // forwardRef must always take 2 parameters, the 2nd being ref, if no 1st parameter is required, use an empty placeholder (_, ref)
   useImperativeHandle(ref, () => {
     return {
       open() {
@@ -17,6 +18,8 @@ const ResultsModal = forwardRef(function ResultsModal({ result, targetTime }, re
       },
     };
   });
+  // useImperativeHandle is used to expose a method (open) of the ResultsModal component to the parent (Timer).
+  // This allows the parent to control when the modal should be opened
 
   return (
     // <dialog className="result-modal" open> Dialog is hidden by default, 'open' makes it visible
