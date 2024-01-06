@@ -1,5 +1,6 @@
 import Player from "./components/Player.jsx";
 import Timer from "./components/Timer.jsx";
+import Log from "./components/Log.jsx"
 import { useState } from "react";
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
         <Timer title={"nomad"} targetTime={10} getScore={getScore} />
         <Timer title={"outlaw"} targetTime={15} getScore={getScore} />
       </div>
+      <Log scores={scores} />
     </>
   );
 }
