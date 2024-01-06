@@ -11,7 +11,8 @@ export default function Timer({ title, targetTime }) {
   function handleStart() {
     timer.current = setTimeout(() => { // must always target the current ref
       setExpired(true); // setTimeout is a built-in JS function
-      dialog.current.showModal() // the built-in dialog element, has a showModal method which can be called to show it
+      // dialog.current.showModal() // the built-in dialog element, has a showModal method which can be called to show it
+      dialog.current.open() // with imperative handle we call a function within our component (the name 'open' can be set to any name)
     }, targetTime * 1000); // time is always in MS so set time must be multiplied * 1000 ms
 
     setStarted(true);
