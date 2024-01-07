@@ -199,6 +199,18 @@ header p {
   background: #051715;
 }
 
+#log {
+  max-width: 20rem;
+  color: #edfcfa;
+  font-size: 1.2rem;
+  font-family: 'Handjet', monospace;
+  text-transform: uppercase;
+  list-style: none;
+  margin: 2rem auto;
+  padding: 0;
+  text-align: center;
+}
+
 @keyframes slide-in-from-top {
   0% {
     transform: translateY(-15%);
